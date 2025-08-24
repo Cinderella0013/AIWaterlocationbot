@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Water location</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center; /* จัดเนื้อหาตรงกลางในแนวนอน */
+            align-items: center; /* จัดเนื้อหาตรงกลางในแนวตั้ง */
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin: 20px auto 0 auto;
+        }
+        /* Style สำหรับหลอดโหลด */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+            display: none; 
+            margin: 20px auto 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI ตรวจจับสภาพอากาศ</h1>
+        <input list="provinces" id="location-input" name="location" placeholder="กรอกตำแหน่งที่ต้องการ">
+        <datalist id="provinces">
+            <option value="กรุงเทพมหานคร">
+            <option value="เชียงใหม่">
+            <option value="ภูเก็ต">
+            <option value="ชลบุรี">
+            <option value="ขอนแก่น">
+            <option value="นครราชสีมา">
+            <option value="สงขลา">
+            <option value="อุดรธานี">
+        </datalist><br>
+        <button class="btn" onclick="showLoader()">ยืนยัน</button>
+        <div class="loader" id="loader"></div>
+    </div>
+    <script>
+        function showLoader() {
+
+            document.querySelector('.btn').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+
+
+            setTimeout(function() {
+
+                document.getElementById('loader').style.display = 'none';
+     
+                alert("ให้มองออกไปนอกหน้าต่าง");
+                
+                document.querySelector('.btn').style.display = 'block';
+            }, 5000); 
+        }
+    </script>
+</body>
+</html>
