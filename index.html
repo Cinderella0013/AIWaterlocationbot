@@ -49,8 +49,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>AI ตรวจจับสภาพอากาศ</h1>
-        ##<input list="provinces" id="location-input" name="location" placeholder="กรอกตำแหน่งที่อยู่ปัจจุบัน">
+        <h1>AI ตรวจจับสภาพอากาศ จากที่อยู่ปัจจุบัน</h1>
         <datalist id="provinces">
             <option value="กรุงเทพมหานคร">
             <option value="เชียงใหม่">
@@ -65,24 +64,55 @@
         <div class="loader" id="loader"></div>
     </div>
     <script>
-        function showLoader() {
+    function showLoader() {
+        document.querySelector('.btn').style.display = 'none';
+        document.getElementById('loader').style.display = 'block';
 
-            document.querySelector('.btn').style.display = 'none';
-            document.getElementById('loader').style.display = 'block';
+        // ขออนุญาตเข้าถึงตำแหน่ง
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
 
-
-            setTimeout(function() {
-
-                document.getElementById('loader').style.display = 'none';
-     
-                alert("มองออกไปนอกหน้าต่างดู");
-                
-                document.querySelector('.btn').style.display = 'block';
-            }, 5000); 
+                    // ซ่อนโหลดเดอร์และแสดงตำแหน่ง
+                    setTimeout(function() {
+                        document.getElementById('loader').style.display = 'none';
+                        alert(`ตำแหน่งของคุณ:\nLatitude: ${lat}\nLongitude: ${lon}`);
+                        document.querySelector('.btn').style.display = 'block';
+                    }, 5000);
+                },
+                function(error) {
+                    document.getElementById('loader').style.display = 'none';
+                    document.querySelector('.btn').style.display = 'block';
+                    
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            alert("คุณปฏิเสธการอนุญาตให้เข้าถึงตำแหน่ง");
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            alert("ไม่สามารถระบุตำแหน่งของคุณได้");
+                            break;
+                        case error.TIMEOUT:
+                            alert("การขอตำแหน่งใช้เวลานานเกินไป");
+                            break;
+                        default:
+                            alert("เกิดข้อผิดพลาดในการขอตำแหน่ง");
+                            break;
+                    }
+                }
+            );
+        } else {
+            alert("เบราว์เซอร์ของคุณไม่รองรับการระบุตำแหน่ง");
+            document.querySelector('.btn').style.display = 'block';
+            document.getElementById('loader').style.display = 'none';
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
+
 
 
 
